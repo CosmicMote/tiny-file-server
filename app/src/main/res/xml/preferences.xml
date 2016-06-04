@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference android:key="pref_port"
+                        android:title="Port"
+                        android:summary="The port the server will listen on (1025 - 65535)."
+                        android:defaultValue="8080"
+                        android:numeric="integer"
+                        android:maxLength="5"/>
+</PreferenceScreen>

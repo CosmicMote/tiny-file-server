@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Tiny File Server</title>
+    <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+</head>
+<body>
+    <script src="jquery-2.1.4.js"></script>
+    <script src="dmuploader.js"></script>
+    <script src="index.js"></script>
+    
+    <div id="container">
+
+        <div id="title_div"><span id="title_span">Tiny File Server</span></div>
+        <br />
+        <div id="links_div">
+            <div id="breadcrumbs_div"></div>
+            <br />
+            <span id="favorites_dropdown"><img id="favorites_arrow" src="right-arrow.png">Favorites</span><hr>
+            <div id="favorites_div" style="display:none;"></div>
+            <a id="logout_link" href="/logout">Logout</a>
+        </div>
+
+        <table id="listing_table">
+            <tr>
+                <th><input id="select_all" type="checkbox"></th>
+        		<th>Name</th>
+        		<th>Size</th>
+        		<th>Last Modification</th>
+        		<th id="download_header">Download</th>
+        		<th id="delete_header">Delete</th>
+            </tr>
+        </table>
+        
+        <div id="button_div">
+            <button id="dwnl_selected_btn" type="button">Download Selected</button>
+            <button id="del_selected_btn" type="button">Delete Selected</button>
+        </div>
+
+        <div id="drop-area-div-container" class="uploader">
+            <div id="drop-area-div"></div>
+        </div>
+
+      <div id="fileList"></div>        
+    </div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Tiny File Server</title>
+    <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+</head>
+<body>
+    <script src="jquery-2.1.4.js"></script>
+    <script src="login.js"></script>
+    
+<!--     <div id="container">
+        <h1>Tiny File Server</h1>
+        Authentication: <input id="auth_field" type="password"><br />
+        <button id="submit_button" type="button">Submit</button>
+        <span id="status"></span>
+    </div>
+ -->
+
+    <div id="container">
+        <div id="title_div">Tiny File Server</div>
+        <br />
+        <div id="form_container" class="center">
+            <form action="login" method="post">
+                <input type="hidden" name="user" value="admin">
+                Authentication: <input id="auth_field" type="password" name="password">
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <span id="status"></span>
+    </div>
+
+
+</body>
+</html>
