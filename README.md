@@ -32,3 +32,6 @@ TODO:
   instances on same LAN.
 - Log useful output in app (when clients connect, etc.)
 - Improve handling of redirect to login page.
+- Files with single quote in the name aren't handled properly.
+- Add ability to rename files and directories.
+- Add ability to create directories.
