@@ -40,6 +40,7 @@ public class HttpServer extends NanoHTTPD {
 
     private HttpServer() {
         super(DEFAULT_PORT);
+        setAsyncRunner(new ThreadPoolAsyncRunner());
     }
 
     private Context context;
@@ -367,7 +368,10 @@ public class HttpServer extends NanoHTTPD {
             MimeType mimeType = MimeType.forFile(file);
             Response response = newChunkedResponse(Response.Status.OK, mimeType.toString(), new FileInputStream(file));
             if(attachment)
+            {
                 response.addHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", file.getName()));
+                response.addHeader("Content-Length", Long.toString(file.length()));
+            }
             return response;
         } catch(FileNotFoundException e) {
             return errorResponse(Response.Status.NOT_FOUND);

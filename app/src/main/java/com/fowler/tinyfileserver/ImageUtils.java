@@ -34,6 +34,13 @@ public final class ImageUtils {
             float scaleFactor = (float)maxDimension / (float)maxWidthOrHeight;
             options.inSampleSize = Math.round(scaleFactor);
             Bitmap scaledBitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath(), options);
+            // Not sure why, but thumbnails are rotated 90 degrees left.  Compensate here by rotating 90 degrees right.
+            // Edit: *Sometimes* thumbnails are rotated 90 degrees left (sometimes they are correct).  So applying the
+            // correction here fixes some but messes up others.
+//            Matrix matrix = new Matrix();
+//            matrix.postRotate(90);
+//            scaledBitmap =
+//              Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             scaledBitmap.compress(compressFormat, 0, baos); // 0 means compress for low size, but ignored for PNG
             return new ByteArrayInputStream(baos.toByteArray());
