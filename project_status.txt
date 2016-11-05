@@ -1,0 +1,20 @@
+TFS status
+-----------
+
+Bugs:
+---------------------------------------
+bug when uploading file with ' in name
+after a bunch of downloads, server just stopped responding entirely, even after restart
+  - don't know root cause
+  - maybe too many threads?  Try new AsyncRunner implementation
+thumbnails are rotated 90 degrees left usually, even though original is ok
+
+Changes:
+-------------------------------------
+Show summary at top - count of files and total size
+for pictures show file name in addition to thumbnail
+show file size using 1000-based rather than 1024-based
+takes forever to download a bunch of pictures
+  - performance issue or functional issue?
+put Download selected/delete selected at top too
+use AM/PM for times  
