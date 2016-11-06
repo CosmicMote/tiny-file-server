@@ -15,6 +15,10 @@ myApp.globals = {};
 //    retrieve_listing(null);
 //});
 
+function isDefined(val) {
+    return typeof val !== 'undefined' && val != null;
+}
+
 function retrieve_listing(dir) {
 
     var query_params = '';
@@ -35,6 +39,20 @@ function retrieve_listing(dir) {
 
          $('#breadcrumbs_div').html(breadcrumbs(json.dir));
          populate_favorites();
+
+         var summary_text = '';
+         if(json.dirCount) {
+            summary_text += json.dirCount;
+            summary_text += json.dirCount == 1 ? ' Directory' : ' Directories';
+         }
+         if(json.fileCount) {
+            if(summary_text.length)
+                summary_text += ', '
+            summary_text += json.fileCount;
+            summary_text += json.fileCount == 1 ? ' File' : ' Files';
+            summary_text += ' (' + human_readable_size(json.totalFileSize) + ')';
+         }
+         $('#summary_span').text(summary_text);
 
          $('#listing_table tr').has('td').remove();
          $('#select_all').prop('checked', false);
@@ -107,8 +125,8 @@ function retrieve_listing(dir) {
                  $('<tr>').append(
                      $('<td>').html(ckbox),
                      $('<td>').html(span).addClass(entry.isImage ? 'center' : ''),
-                     $('<td>').text(human_readable_size(entry.size)),
-                     $('<td>').text(entry.lastModified),
+                     $('<td style="white-space: nowrap">').text(human_readable_size(entry.size)),
+                     $('<td style="white-space: nowrap">').text(entry.lastModified),
                      $('<td>').html(dl_a).addClass('center'),
                      $('<td>').html(rm_a).addClass('center')
                  ).appendTo('#listing_table');
@@ -325,10 +343,10 @@ function populate_favorites() {
 
 function human_readable_size(bytes) {
 
-  if(bytes) {
-    var kB = 1024;
-    var MB = 1024 * kB;
-    var GB = 1024 * MB;
+  if(isDefined(bytes)) {
+    var kB = 1000;
+    var MB = 1000 * kB;
+    var GB = 1000 * MB;
 
     if(bytes < kB) {
       return bytes + ' B';
@@ -412,19 +430,15 @@ $(document).ready(function(){
       });
     });
 
-  $('#dwnl_selected_btn').on('click',
-    {  },
-    function(eventObject) {
+  var dwnl_action = function(eventObject) {
       if(count_selected() > 0) {
         window.location.href = '/download' + multiselect_query_string();
       } else {
         alert('Please select at least one item to download.');
       }
-    });
+  };
 
-  $('#del_selected_btn').on('click',
-    {  },
-    function(eventObject) {
+  var delete_action = function(eventObject) {
       var count = count_selected();
       if(count > 0) {
         if(confirm('Delete ' + count + ' items?')) {
@@ -445,7 +459,12 @@ $(document).ready(function(){
       } else {
         alert('Please select at least one item to delete.');
       }
-    });
+  };
+
+  $('#top_dwnl_selected_btn').on('click', { }, dwnl_action);
+  $('#bottom_dwnl_selected_btn').on('click', { }, dwnl_action);
+  $('#top_del_selected_btn').on('click', { }, delete_action);
+  $('#bottom_del_selected_btn').on('click', { }, delete_action);
 
   $('#favorites_dropdown').on('click',
     {  },

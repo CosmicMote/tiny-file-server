@@ -19,6 +19,10 @@
 	cursor: pointer;
 }
 
+#summary_span {
+    font-size: smaller;
+}
+
 #logout_link {
 	float: right;
 	font-size: smaller;
@@ -75,7 +79,7 @@ td {
 
 tr:nth-child(even) {background-color: #EEEEFF}
 
-#button_div {
+.button_panel {
 	text-align: center;
 	margin: 10px 0px 10px 0px;
 }

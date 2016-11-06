@@ -22,10 +22,6 @@ public class DirectoryContent {
     private final File dir;
     private final List<File> files = new ArrayList<>();
 
-    public DirectoryContent() {
-        this(null);
-    }
-
     public DirectoryContent(File dir) {
 
         if(dir != null) {
@@ -55,15 +51,24 @@ public class DirectoryContent {
 
     public String toJSON() throws JSONException {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd h:mm a");
         List<JSONObject> entries = new ArrayList<>();
+        int dirCount = 0;
+        int fileCount = 0;
+        long totalFileSize = 0;
         for(File file : files) {
             JSONObject entry = new JSONObject();
             entry.put("isDir", file.isDirectory());
             entry.put("name", file.getName());
             entry.put("path", file.getAbsolutePath());
-            if(file.isFile())
-                entry.put("size", file.length());
+            if(file.isFile()) {
+                long fileLength = file.length();
+                entry.put("size", fileLength);
+                fileCount++;
+                totalFileSize += fileLength;
+            } else {
+                dirCount++;
+            }
             entry.put("lastModified", sdf.format(new Date(file.lastModified())));
             MimeType mimeType = MimeType.forFile(file);
             entry.put("isImage", mimeType.isImage());
@@ -84,6 +89,9 @@ public class DirectoryContent {
         json.put("dir", dir.getPath());
         json.put("writable", dir.canWrite());
         json.put("entries", new JSONArray(entries));
+        json.put("dirCount", dirCount);
+        json.put("fileCount", fileCount);
+        json.put("totalFileSize", totalFileSize);
 
         return json.toString(4);  //human-readable, indent 4 spaces
     }
