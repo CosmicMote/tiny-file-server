@@ -526,7 +526,25 @@ public abstract class NanoHTTPD {
 
     private static final Pattern CONTENT_TYPE_PATTERN = Pattern.compile(CONTENT_TYPE_REGEX, Pattern.CASE_INSENSITIVE);
 
-    private static final String CONTENT_DISPOSITION_ATTRIBUTE_REGEX = "[ |\t]*([a-zA-Z]*)[ |\t]*=[ |\t]*['|\"]([^\"^']*)['|\"]";
+    // The original regex here caused a problem where a file name with a single quote in it wouldn't be parsed correctly.
+    // For example, this file name:
+    //
+    //   Don't Tread On Me.mp3
+    //
+    // would be parsed as:
+    //
+    //   Don
+    //
+    // Removing the single quote from the second capture group resolved this issue.  Though I don't know for sure if
+    // that will cause other problems (perhaps that single quote was there for a good reason?).  Also, I'm guessing
+    // we'd still run into the same problem with files with a " or ^ in the name, though those should be far less
+    // common.  Also in the Content-Disposition of the request payload, the file name is delimited by ", so I'm sure
+    // that's necessary for that to work correctly.
+    //                                                                                                 Removed ' here
+    //                                                                                                             |
+    //                                                                                                             v
+    private static final String CONTENT_DISPOSITION_ATTRIBUTE_REGEX = "[ |\t]*([a-zA-Z]*)[ |\t]*=[ |\t]*['|\"]([^\"^]*)['|\"]";
+//    private static final String CONTENT_DISPOSITION_ATTRIBUTE_REGEX = "[ |\t]*([a-zA-Z]*)[ |\t]*=[ |\t]*['|\"]([^\"^']*)['|\"]";
 
     private static final Pattern CONTENT_DISPOSITION_ATTRIBUTE_PATTERN = Pattern.compile(CONTENT_DISPOSITION_ATTRIBUTE_REGEX);
 
